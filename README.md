@@ -6,7 +6,14 @@ This repository contains custom functions developed for the analysis of the SDG 
 
 The jupyter notebood depends on the *int_func.py* for its custom-defined function, including:
 * `return_seriesCode(indicator: str)`
-* `return_datapoints(seriesCode: str, geoAreaCode: str = '001', start_year: int, end_year: int, disagg: bool, plot: bool)
+* `return_datapoints(seriesCode: str, geoAreaCode: str = '001', start_year: int, end_year: int, disagg: bool, plot: bool)`
+* `seriesCode:str, regions: dict = region_dict, sdg:int = 0)`
+* `return_datapoints`
+* `regional analysis_vis`
+* `progress_data
+* `progress_CARG_a`
+* `progress_cr`
+* `plot_trend_required`
 
 
 This repository adopted the UN M49 standards for the classification of regions.
