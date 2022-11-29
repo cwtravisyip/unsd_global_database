@@ -10,7 +10,7 @@ The jupyter notebood depends on the *int_func.py* for its custom-defined functio
 * `seriesCode:str, regions: dict = region_dict, sdg:int = 0)`
 * `return_datapoints`
 * `regional analysis_vis`
-* `progress_data
+* `progress_data`
 * `progress_CARG_a`
 * `progress_cr`
 * `plot_trend_required`
