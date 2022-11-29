@@ -124,7 +124,7 @@ def return_seriesCode(*indicator:str):
 # return pandas dataframe when passed in indicator and the geoAreaCode (M49)
 def return_datapoints(seriesCode: str , geoAreaCode :str = '001' ,start_year:int  = 2010,end_year:int = 2022,disagg = True, plot:bool = True):
     """
-    The function returns a dataframe of the given series and the metadata for it of the given region or country
+    The function returns a dataframe of the given series for it of the given region or country
     """
     if  seriesCode not in series_list['code'].values:
         print('Invalid series code')
@@ -178,6 +178,10 @@ def return_datapoints(seriesCode: str , geoAreaCode :str = '001' ,start_year:int
 
 
 def regional_analysis_vis(seriesCode:str, regions: dict = region_dict, sdg:int = 0):
+    """
+    The current version assumes that 8 regions are plotted and is passed into the regions paramter as a dictionary in geoAreaCode: Name pair.
+    The sdg parameter determines the color of the line plot.
+    """
     des = series_list.loc[series_list[series_list['code']==seriesCode].index.values, 'description']
 
 
@@ -190,28 +194,38 @@ def regional_analysis_vis(seriesCode:str, regions: dict = region_dict, sdg:int =
 
     df.set_index('year',drop = True, inplace = True)   
 
-                
-    fig , ax = plt.subplots(nrows = 2, ncols = 4, figsize = (40,10))
+    # determine the grid plot ncol and nrow
+    nrows = 2
+    ncols = round(len(regions.keys())/2)
+
+            
+    fig , ax = plt.subplots(nrows = nrows, ncols = ncols, figsize = (ncols * 12.5,20))
     i= 0 
-    fig.suptitle(des.values[0])
-    for x in range(0,2):
+    fig.suptitle(des.values[0], fontsize = 20)
+    for x in range(0,nrows):
         # iterate through rows
-        for y in range(0,4):
-            # base plot
-            ax[x,y].plot(df, color = 'lightgrey',zorder = 1)
-            # grid highlight plot
-            ax[x,y]. plot(df.iloc[:,i], color = SDG_col[sdg], zorder = 2, linewidth = 3, marker = 'o')
+        for y in range(0,ncols):
+            if i < len(regions.keys()):
+                # base plot
+                ax[x,y].plot(df, color = 'lightgrey',zorder = 1)
+                # grid highlight plot
+                if df.iloc[:,i].count() != 0 :
+                    ax[x,y]. plot(df.iloc[:,i], color = SDG_col[sdg], zorder = 2, linewidth = 3, marker = 'o')
+                else:
+                    ax[x,y].text(0.5,0.5,'No data point available.',horizontalalignment='center', verticalalignment='center', transform=ax[x,y].transAxes)
+                # make sure the annotation above the point is within the axis and the annotation to be reasonable height
+                y_division = (ax[x,y].get_yticks()[1] - ax[x,y].get_yticks()[0])/5
 
-            # make sure the annotation above the point is within the axis and the annotation to be reasonable height
-            y_division = (ax[x,y].get_yticks()[1] - ax[x,y].get_yticks()[0])/5
+                for key, value in df.iloc[:,i].items():
+                    ax[x,y].annotate('{:.1f}'.format(value),(key,value+y_division),fontsize = 10)
 
-            for key, value in df.iloc[:,i].items():
-                ax[x,y].annotate('{:.1f}'.format(value),(key,value+y_division),fontsize = 10)
+                # formatting
+                ax[x,y].set_title(list(region_dict.values())[i])
 
-            # formatting
-            ax[x,y].set_title(list(region_dict.values())[i])
-
-            i +=1
+                i +=1
+            else:
+                ax[x,y].remove()
+                pass
 
 def progress_data(df, y_t:int, y_0:int = 2015):
     # handling df with and without disaggregation columns
@@ -229,6 +243,7 @@ def progress_data(df, y_t:int, y_0:int = 2015):
 # return the trend analysis of the indicator without numerical target
 def progress_CARG_a(df,y_0:int = 2015):
     """
+    Based on the methodology of the progress chart, the function return the actual compound rate of growth.
     df : dataframe for the values
     y_t: current year
     y_0: baseline year (default as 2015)
@@ -256,6 +271,7 @@ def progress_CARG_a(df,y_0:int = 2015):
 # return the trend analysis of the indicator with numerical target
 def progress_cr(df:pd.DataFrame,x:float ,y_0:int = 2015,):
     """
+    This function  applies to indicators with explicitly stated target, returning the required carg and the actual carg. 
     x  : the target value by 2030 (note the unit of the dataframe)
     y_0: baseline year (default as 2015)
     """
@@ -281,9 +297,13 @@ def progress_cr(df:pd.DataFrame,x:float ,y_0:int = 2015,):
 
 def plot_trend_and_required(df: pd.DataFrame, base_year = 2015, end_year = 2030, carg_a = None,carg_r = None, sdg = 0, target_value = None, column_name:str = 'value', target_year = 2030, mul_digit = True):
     """
-    The sign of the carg_a and the carg_r matters
-    base_year (str): the year for which the CARG shall be computed
-
+    The function returns a time series plot from the 2015. Where 2015 data is not available, the data point is generated by linear interpolation. Where baseline year is after 2015, the plot begins at baseline year.
+    Given the dataframe, the function generates the carg_a. Passing in float into carg_a would override this.
+    The target value could be passed in if known. If not, the function accept the carg_r argument, which would generate the target value.
+    The sign of the carg_a and the carg_r matters.
+    base_year (str):    the year for which the CARG shall be computed
+    column_name (str):  this provides the flexibility to pass in DataFrame where the data point is not recorded under the 'value' column
+    mul_digit (bool):   this determine the persicion of the annotation of the baseline, latest, projected and target data points
     """
     def interpolate_2015val(df:pd.DataFrame, sdg:int,column_name = 'value'):
         # linear interpolation
