@@ -24,7 +24,8 @@ This repository adopted the UN M49 standards for the classification of regions.
 ![regional_data_fact_sheet_SSA_p2](https://user-images.githubusercontent.com/78350303/204588294-d3ea481b-fb75-48e7-97c4-3cf5592c6549.jpg)
 
 ### Progress chart calculation 
-![ind_020102_03](https://user-images.githubusercontent.com/78350303/204618361-fcf0b9ca-2089-4314-ba8b-fc4953b795e4.svg)
+![ind_020102_03](https://user-images.githubusercontent.com/78350303/204852131-2c3dd219-dc78-4f07-a60c-22a4b2a4dd2e.jpg)
+
 
 ### Regional analysis
 ![7_1_EG_EGY_CLEAN](https://user-images.githubusercontent.com/78350303/204618662-b9dc292c-ac74-46ff-b158-5839ef5e0e2e.jpg)
