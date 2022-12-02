@@ -18,7 +18,7 @@ The jupyter notebood depends on the *int_func.py* for its custom-defined functio
 
 This repository adopted the UN M49 standards for the classification of regions.
 
-# Project output
+## Project output
 ### Regional data fact sheet
 ![regional_data_fact_sheet_SSA_p1](https://user-images.githubusercontent.com/78350303/204588291-25488592-f66e-47f3-a074-15955ece0c0f.jpg)
 ![regional_data_fact_sheet_SSA_p2](https://user-images.githubusercontent.com/78350303/204588294-d3ea481b-fb75-48e7-97c4-3cf5592c6549.jpg)
