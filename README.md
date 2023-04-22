@@ -4,7 +4,7 @@ This repository contains custom functions under `int_func.py` developed for the 
 * Analysis of regional progress
 * Global progress review
 
-The jupyter notebood depends on the *int_func.py* for its custom-defined function, including:
+The jupyter notebook depends on the *int_func.py* for its custom-defined function, including:
 * `return_seriesCode(indicator: str)`
 * `return_datapoints(seriesCode: str, geoAreaCode: str = '001', start_year: int, end_year: int, disagg: bool, plot: bool)`
 * `return_datapoints`
