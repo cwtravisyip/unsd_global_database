@@ -1,6 +1,6 @@
 # UN Statistic SDG Global Database
 
-This repository contains custom functions developed for the analysis of the SDG indicator. All data used in this repository is publicly accessible through the Global Database API. Given the breadth of series (644) that covers 231 unique indicators, the custom functions were defined to faciliate:
+This repository contains custom functions under `int_func.py` developed for the analysis of the SDG indicator. The use case of these functions are showcased in other notebook file. All data used in this repository is publicly accessible through the Global Database API. Given the breadth of series (644) that covers 231 unique indicators, the custom functions were defined to faciliate:
 * Analysis of regional progress
 * Global progress review
 
